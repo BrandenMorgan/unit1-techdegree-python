@@ -27,7 +27,6 @@ def calculate_high_score(score, guesses):
     return score
 
 
-
 def keep_playing(answer, score, guesses):
     if answer.upper() == 'Y':
         print("\nThe HIGHSCORE is {}".format(score))
@@ -55,20 +54,16 @@ def start_game():
             print("It's lower!")
             number_of_guesses += 1
         elif guess == answer:
+            high_score = calculate_high_score(high_score, number_of_guesses)
+            if high_score >= number_of_guesses:
+                in_game_message("****CONGRATULATIONS!!! You got the HIGHSCORE!!!****")
             print("\nYou got it! It took you {} tries!".format(number_of_guesses))
             play_again = input("Would you like to play again? [y]es/[n]o: ")
-
-            high_score = calculate_high_score(high_score, number_of_guesses)
-            keep_playing(play_again, high_score, number_of_guesses)
-
-            if high_score >= number_of_guesses:
-                new_high_score = number_of_guesses
-                in_game_message("****CONGRATULATIONS!!! You got the new HIGHSCORE!!!****")
-            elif high_score == number_of_guesses:
-                pass
-
-            number_of_guesses = 1
-            continue
+            play_again = keep_playing(play_again, high_score, number_of_guesses)
+            if play_again.upper() == "Y":
+                number_of_guesses = 1
+                answer = random.randint(1, 10)
+                continue
             in_game_message(exit_game_message)
             break
 if __name__ == '__main__':
